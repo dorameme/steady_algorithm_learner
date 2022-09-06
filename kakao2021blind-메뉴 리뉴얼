@@ -1,0 +1,52 @@
+/*
+2022-09-06
+start:20:00
+end:21:09
+point-> map<string ,int> m;을 만들고 특정값 "s"에 대해 m["s"]++ 을하면
+m["s"]=1을 가진다. 
+*/
+
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <map>
+using namespace std;
+vector <string> helper;
+vector <string> s;
+map<string ,int> m;
+int maxi=-1;
+void solve(string s,int target,string mk,int idx){
+    if(mk.size()==target){
+        m[mk]++;
+        if(m[mk]==maxi&&m[mk]!=1){
+            helper.push_back(mk);
+        }
+        else if(m[mk]>maxi&&m[mk]!=1){
+            maxi=m[mk];
+            helper.clear();
+            helper.push_back(mk);
+         }
+        return;
+    }
+    for(int i=idx+1;i<s.size();i++){
+        solve(s,target,mk+s[i],i);
+    }
+}
+vector<string> solution(vector<string> orders, vector<int> course) {
+    vector<string> answer;
+    for(int num=0;num<course.size();num++){//길이별..
+        maxi=-1;
+        helper.clear();
+        for(int i=0;i<orders.size();i++){
+            cout<<"\n\n";
+            sort(orders[i].begin(),orders[i].end());
+            solve(orders[i],course[num],"",-1);//stirng target num idx
+        }
+        for(auto& a:helper){
+        answer.push_back(a);
+        }
+    }
+    sort(answer.begin(),answer.end());
+    return answer;
+}
