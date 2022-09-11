@@ -1,0 +1,48 @@
+/*
+2022-09-11
+start:20:50
+end:21:50 
+point-> 자료형에 주의하자 자료형때문에 애먹은 문제.
+int가아닌 long long으로 해주니까 바로통과
+*/
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+string convertToNum(int n,int k,string num){//특정 지수로 변환
+    if(n>=k){
+        return convertToNum(n/k,k,to_string(n%k)+num);
+    }else{
+        return to_string(n)+num;
+    }
+}
+bool isPrime(long long num){//소수판단
+    if(num==1||num==0){return false;}
+    if(num==2){return true;}
+    else{
+        for(long long i=2;i*i<=num;i++){
+            if(num%i==0){return false;}
+        }
+    }
+    return true;
+}
+int solution(int n, int k) {
+    int answer = 0;
+    vector<int> v;
+    string str=convertToNum(n,k,"");
+    int i=0;
+    string s="0";
+    while(i<str.size()){//길이를 넘어서면 끝
+        if(str[i]=='0'){//만일0이 나오면
+            i++;//하나증가
+          if(isPrime(stol(s))){
+            answer++;
+          }
+          s="0";//넘버 초기화
+          continue;
+        }//0이 아니면
+        s+=str[i++];
+    }
+    if(isPrime(stol(s)))answer++;
+    return answer;
+}
