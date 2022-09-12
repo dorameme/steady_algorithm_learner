@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+using namespace std;
+
+int done = 0;
+int total_time[501];//각 빌딩을 짓는데 필요한 토탈 시간
+int time_need[501];//중간과정의 시간
+int build_before_count[501];//짓기 전에 지어야하는 빌딩 수
+int build_before_sort[501][501];//짓기 전에 지어아햐는 빌딩종류
+int main() {
+	int N;
+	cin >> N;
+	for (int i = 1; i <= N; i++) {
+		cin >> time_need[i];
+		int building_num = 0;
+		cin >> building_num;
+		if (building_num == -1) {
+			continue;
+		}
+		while (building_num != -1) {
+			build_before_sort[i][building_num] = 1;
+			build_before_count[i]++;
+			cin >> building_num;
+		}
+	}
+	//한번 쭉 훓고
+	//지을수있는 애들 다 지우고
+	int biggist_time[501] = { 0, };
+	while (done<N) {
+	queue <int> building_made;
+		for (int n = 1; n <= N; n++) {
+			if (build_before_count[n] == 0&&total_time[n]==0) {//더이상 먼저 지어야할 빙딩이 없고 이전에지은 빌딩도 아니라면
+				total_time[n] += time_need[n]+biggist_time[n];//지어버려!
+				done++;
+				building_made.push(n);
+			}
+		}
+		
+		while(!building_made.empty()){//방금 전에 만든 빌딩들을 이용
+			int cur = building_made.front();
+			building_made.pop();
+			for(int i=1;i<=N;i++){
+			if (build_before_sort[i][cur] == 1) {//만일 이전의 빌딩이 짓는데 필요했다면
+					build_before_sort[i][cur] = 0;
+					build_before_count[i]--;//선수빌딩 수 --
+					biggist_time[i] = max(biggist_time[i], total_time[cur]);//그 빌딩을 짓는데 걸렸던 시간..
+				}
+			}
+		}
+	}
+	for (int i = 1; i <= N; i++) {
+		cout << total_time[i] << "\n";
+
+	}
+}
