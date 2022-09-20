@@ -1,0 +1,57 @@
+/*
+2022-09-20
+start: 3:00
+end:3:27
+point-> 백트래킹문제 연습. 시간초과가 많이났다. 최대한 효율적으로 짜기
+*/
+#include <vector>
+#include <map>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <set>
+#include <vector>
+#include <cstring>
+using namespace std;
+int N, M;
+set <vector <int>> s;
+int vis[111];
+vector <int> helper;
+vector<int> v;
+map <vector<int>,int> m;
+void backtracking(int num) {
+	if (num == M) {
+		m[helper]=1;
+		return;
+	}
+	else {
+		for (int i = 0; i < v.size(); i++) {
+			helper.push_back(v[i]);
+			backtracking(num + 1);
+			helper.pop_back();
+		}
+	}
+}
+
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cin >> N >> M;
+	
+	int num;
+	cin >> num;
+	v.push_back(num);
+	int num2;
+	for (int i = 0; i < N - 1; i++) {
+		cin >> num2;
+		if (num2 == num) { continue; }
+		num = num2;
+		v.push_back(num);
+	}
+	backtracking(0);
+	for (auto& S : m) {
+		for (auto& H : S.first) {
+			cout << H << " ";
+		}cout << "\n";
+	}
+}
