@@ -1,0 +1,38 @@
+#include <vector>
+#include <map>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <set>
+#include <vector>
+#include <cstring>
+#define X first
+#define Y second
+using namespace std;
+int fruit[1001];
+int answer = 0;
+int cnt[1025][1025];
+int dp[1025][1025];
+int N, M;
+int main() {
+	cin >> N >> M; ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	for (size_t i = 1; i <= N; i++)
+	{
+		for (size_t t = 1; t <= N; t++)
+		{
+			cin >> cnt[i][t];
+			dp[i][t] = -dp[i - 1][t - 1] + dp[i - 1][t] + dp[i][t - 1] + cnt[i][t];
+		}
+	}
+	int answer = 0;
+	int a, b, c, d;
+
+	while (M--) {
+		cin >> a >> b >> c >> d;
+		answer = dp[c][d] + dp[a - 1][b - 1] - dp[a - 1][d] - dp[c][b - 1];
+
+		cout << answer << "\n";
+	}
+}
