@@ -1,0 +1,82 @@
+/*
+2022-09-23
+start:3:00
+end:3:15
+point->쉬었는데 ... 딱히 주의할 점은 없고 메소드를 잘 분리해서 풀어주는 것이 좋을듯
+*/
+#include <vector>
+#include <map>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <set>
+#include <vector>
+#include <cstring>
+#define X first
+#define Y second
+using namespace std;
+int N;
+int dx[] = { 0,0,1,-1 };
+int dy[] = { 1,-1,0,0 };
+char board[101][101];
+char board2[101][101];
+int visit[101][101];
+int answer;
+void sol(int x, int y) {
+	answer++;
+	queue<pair<int, int>> q;
+	q.push({ x,y });
+	int answer = 0;
+	while (!q.empty()) {
+		pair<int, int> cur = q.front();
+		q.pop();
+		for (int i = 0; i < 4; i++) {
+			int nx = dx[i] + cur.X;
+			int ny = dy[i] + cur.Y;
+			if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+			if (visit[nx][ny] || board[nx][ny] != board[cur.X][cur.Y])continue;
+			visit[nx][ny] = 1;
+			q.push({ nx, ny });
+		}
+	}
+}
+int main() {
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int m = 0; m < N; m++) {
+			cin >> board[i][m];
+			if (board[i][m] != 'B') {
+				board2[i][m] = 'R';
+			}
+			else {
+				board2[i][m] = 'B';
+			}
+		}
+	}
+	for (int i = 0; i < N; i++) {
+		for (int m = 0; m < N; m++) {
+			if (visit[i][m] == 0) {
+				visit[i][m] = 1;
+					sol(i, m);
+			}
+		}
+	}
+		cout << answer << " ";
+	for (int i = 0; i < N; i++) {
+		for (int m = 0; m < N; m++) {
+			visit[i][m] = 0;
+			board[i][m] = board2[i][m];
+		}
+	}//초기화
+	answer = 0;
+	for (int i = 0; i < N; i++) {
+		for (int m = 0; m < N; m++) {
+			if (visit[i][m] == 0) {
+				visit[i][m] = 1;
+				sol(i, m);
+			}
+		}
+	}
+		cout << answer << " ";
+	return 0;
+}
