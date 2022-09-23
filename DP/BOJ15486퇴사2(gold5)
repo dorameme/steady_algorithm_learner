@@ -1,0 +1,41 @@
+/*
+2022-09-23
+start:4:00
+end:5:15
+point->개인적으로 입력값이 많아서 주의할 점이 많았음
+
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);이거 꼭 써주라. dp를 이런식으로 쓸수있다는게 신기했음 평소 모든 변하는값을 고려해서 dp차원을 크게 만들었는데 이번엔 그렇지않았음
+*/
+#include <vector>
+#include <map>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <set>
+#include <vector>
+#include <cstring>
+#define X first
+#define Y second
+using namespace std;
+int d[1600000]; 
+vector<pair<int, int>> v; 
+int N; 
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	cin >> N;
+	int x, y;
+	for (int i = 0; i < N; i++) {
+			cin >> x >> y;
+			v.push_back({ x,y });
+		
+	}
+	for (int i = 0; i < N; i++) {
+		d[i + v[i].first] = max(d[i+v[i].first],d[i]+v[i].second);
+		d[i + 1] = max(d[i], d[i + 1]);
+	}
+	cout << d[N];
+}
