@@ -1,0 +1,69 @@
+문제- 각 홀수층에있는 노드들의 순서를 거꾸로 뒤바꾸어라.
+-> level-order travalsal(BFS) 알고리즘사용 혹은 dfs 사용
+
+Q. Given the root of a perfect binary tree, reverse the node values at each odd level of the tree.
+
+A. dfs
+class Solution {
+private:
+    void reverse(TreeNode* rootL, TreeNode* rootR, int level) {
+        if(rootL == NULL and rootR == NULL) return; //값이 더이상 없으면 리턴
+        if(level % 2 == 0) swap(rootL->val, rootR->val);//층이 홀수면 각 값을 거꾸로 바꿔준다.
+        reverse(rootL->left, rootR->right, level + 1);//왼쪽의 왼쪽  오른쪽의 오른쪽
+        reverse(rootL->right, rootR->left, level + 1);//왼쪽의 오른쪽 오른쪽의 왼족
+    }
+public:
+    TreeNode* reverseOddLevels(TreeNode* root) {
+        reverse(root->left, root->right, 0);
+        return root;
+    }
+};
+
+A>level-order travalsal
+트리의 레벨 순서대로 순회하는 Level order traversal
+큐를 이용
+1) 루트 노드를 방문한다.
+2) 루트 노드의 Left Child 를 방문한다.
+3) 루트 노드의 Right Child를 방문한다.
+
+
+class Solution {
+public:
+    TreeNode* reverseOddLevels(TreeNode* root) {
+        queue<TreeNode*> q; 
+        //Insert the root node which is at level=0 in the queue
+        q.push(root); ///루트를 넣어준다
+        int level=0; 
+        while (!q.empty()) {////큐가 빌때까지
+            vector<int> nums; 
+            int n=q.size();//큐의사이즈
+            vector<TreeNode*> nodes; ///주소값 저장!!😍
+            //Nodes will hold all the nodes of current level
+            //Nums will hold their values 
+            
+            
+            for (int i=0; i < n; i++){//큐사이즈만큼 반복
+                TreeNode* curr= q.front();//큐앞에서 뺴준다 
+                q.pop();
+                nums.push_back(curr->val); //현재 값을 벡터에 저장
+                nodes.push_back(curr); //노드의 값을 저장
+                if(curr->left) q.push(curr->left); //현재 큐의 왼쪽을 큐에넣는다
+                if(curr->right) q.push(curr->right); //현재 큐의 오른쪽을 큐에넣는다.
+                
+            }
+            //If the level is odd, I will reverse the values and assign them to the TreeNodes using a for loop. 
+            if(level%2){//만일 홀수층이면
+                reverse(nums.begin(), nums.end());//벡터있는 모든값을 리벌스 
+                for (int i=0; i< nodes.size(); i++) {
+                    TreeNode* curr= nodes[i]; //주소를 현재 노드를 넣음
+                    curr->val= nums[i]; //주소값의 현재에 벡터에 리벌스된 값들을 저장
+                }
+            }
+            //increase the level
+            level++;
+            
+        }
+        
+        return root;
+    }
+};
