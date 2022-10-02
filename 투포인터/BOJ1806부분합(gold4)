@@ -1,0 +1,39 @@
+/*
+2022-10-02
+start: 10:00
+end:10:11
+point-> 투포인터로 가볍게 풀수있었음. a인덱스는 제한을 둿는데 b인덱스 제한을 안둬서 좀 틀렸었다.
+*/
+
+#include <iostream>
+#include <queue>
+using namespace std;
+int arr[100001];
+long long dp[100001];
+int main() {
+	int N, S;
+	cin >> N >> S;
+	for (int i = 1; i <= N; i++) {
+		cin >> arr[i];
+		dp[i] = dp[i - 1] + arr[i];
+	}
+	int a = 0, b = 1;
+	int answer = 987654321;
+	while (a <=N&&b<=N) {
+		if (dp[b] - dp[a] < S) {
+			b++;
+		}
+		else if (dp[b] - dp[a] >= S) {
+			if (answer > b - a) {
+				answer = b - a;
+			}
+			a++;
+		}
+	}
+	if (answer == 987654321) {
+		cout << 0;
+		return 0;
+
+	}
+	cout << answer;
+}
