@@ -1,0 +1,40 @@
+/*
+2022-10-03
+start:6:45
+end:6:55
+point->개인적으로 입력값이 많아서 주의할 점이 많았음
+  unordered_map으로 풀어준다 (hash)
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);이거 꼭 써야됨..*/
+#include <iostream>
+#include <queue>
+#include <unordered_map>
+#include <string>
+using namespace std;
+int arr[100001];
+long long dp[100001];
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N, S;
+	cin >> N >> S;
+	string name;
+	int num;
+	unordered_map<string, int> m1;
+	unordered_map<int,string> m2;
+	int i = 1;
+	while(N--){
+		cin >> name;
+		m1[name] = i;
+		m2[i++] = name;
+	}
+	while (S--) {
+		cin >> name;
+		if (name[0] >= '0' && name[0] <= '9')
+			cout << m2[stoi(name)]<<"\n";
+		else cout << m1[name]<<"\n";
+	}
+}
