@@ -1,0 +1,55 @@
+/*
+2022-10-03
+start: 2:00
+end:2:10
+point->  쉬웠던문제
+*/
+#include <iostream>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <map>
+#include <set>
+#include <string>
+using namespace std;
+int arr[100001];
+long long dp[100001];
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int n;
+	cin >> n;
+	while (n--) {
+		int biggest = -987654321;
+		int smallest = 987654321;
+		multiset <int> ms;
+		int test;
+		cin >> test;
+		char a; int b;
+		multiset<int>::iterator it;
+		while (test--) {
+			cin >> a >> b;
+			if (a == 'D' && ms.empty())continue;
+			if (a == 'I') {
+				ms.insert(b);
+			}
+			else {
+				if (b == 1) {
+					it = ms.find(*--ms.end());
+					ms.erase(it);
+				}
+				else {
+					ms.erase(ms.begin());
+				}
+			}
+		}
+		if (ms.empty()) cout << "EMPTY\n" ;
+		else {
+
+			cout <<*--ms.end()<<" "<< *ms.begin()<<"\n";
+
+		}
+	}
+
+}
