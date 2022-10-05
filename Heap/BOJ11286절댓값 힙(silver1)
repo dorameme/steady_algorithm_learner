@@ -1,0 +1,39 @@
+#include <iostream>
+#include <stack>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <map>
+#include <algorithm>
+#include <set>
+#include <string>
+using namespace std;
+pair<int, int >jewel[10000003];
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int N;
+	cin >> N;
+	int a;
+	priority_queue<pair<int, int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+	while (N--) {
+		cin >> a;
+		if (a == 0) {
+			if (pq.empty()) {
+				cout << 0 << '\n';
+			}
+			else {
+				cout << pq.top().second * pq.top().first << "\n";
+				pq.pop();
+			}
+		}
+		else {
+			if(a<0)
+			pq.push({ -a,-1 });
+			else {
+				pq.push({ a,1 });
+			}
+		}
+	}
+}
