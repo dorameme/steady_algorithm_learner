@@ -3,6 +3,8 @@
 start: 3:00
 end:3:27
 point-> 백트래킹문제 연습. 시간초과가 많이났다. 최대한 효율적으로 짜기
+
+시간복잡도:O(N!/(N-M)!)
 */
 #include <vector>
 #include <map>
