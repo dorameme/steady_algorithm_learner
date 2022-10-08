@@ -2,7 +2,9 @@
 2022-10-03
 start: 2:00
 end:2:10
-point->  쉬웠던문제
+point->  쉬웠던문제  멀티셋은 균형이진트리이므로 lgn 의 시간이 소요된다.
+시간복잡도:O(lgN)
+공간복잡도:O(N)
 */
 #include <iostream>
 #include <queue>
