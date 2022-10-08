@@ -1,3 +1,9 @@
+*
+시간복잡도:O(N*M)
+공간복잡도:O(N*M)
+풀이: 벽을 한번까지 부수며 이동할수있다 최소거리로 갈때 그 거리를 구하면되므로
+visit을 3차원 배열로 만들어 현재위치와 부순횟수를 저장해가며  dp+BFS 로 풀어준다.
+*/
 #include <vector>
 #include <map>
 #include <iostream>
