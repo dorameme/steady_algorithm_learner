@@ -1,3 +1,11 @@
+/*
+시간복잡도:O(N*M)
+공간복잡도:O(N*M)
+
+비트마스킹과 BFS를 이용해 문제르 푼다.
+비트마스킹을 이용해 하나하나 벽을 제거해보며 어떨때 가장 큰넓이가 나오는지 확인해본다.
+*/
+
 #include <iostream>
 #include <algorithm>
 #include <queue>
