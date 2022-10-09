@@ -1,0 +1,44 @@
+/*
+시간복잡도:O(2^N)-> N에 대해서 모든 경우의수에 대해 실행한다.
+공간복잡도:O(N*2^N)-> 경우의수 * 문자열의 길이
+풀이: 백트래킹을이용해 팰린드롬을 모두해준다. 
+*/
+class Solution {
+public:
+    vector <vector <string>> answer;
+    int palindrome[17][17];
+    bool is_palindrome(string s){
+        int left=0;
+        int right=s.size()-1;
+        while(left<=right&&s[left++]==s[right--])
+        if(left>right)return true;
+        return false;
+        }
+    void sol(vector <string>& v,string s,int i){
+        if(i==s.size()){answer.push_back(v); return;}
+        for(int cnt=1;cnt+i<=s.size();cnt++){
+            if(palindrome[i][cnt]){
+                cout<<palindrome[i][cnt]<<" "<<s.substr(i,cnt)<<'\n';
+                v.push_back(s.substr(i,cnt));
+                sol(v,s,i+cnt);
+                v.pop_back();
+            }
+        }
+    } 
+    vector<vector<string>> partition(string s) {
+        for(int i=0;i<s.size();i++){
+            palindrome[i][1]=1;
+        }
+        for(int cnt=1;cnt<=s.size();cnt++)
+        {
+            for(int i=0;i+cnt<=s.size();i++){
+                if(is_palindrome(s.substr(i,cnt))){
+                    palindrome[i][cnt]=1;
+                }
+            }   
+        }
+        vector <string> helper;
+        sol(helper,s,0);
+        return answer;
+    }
+};
