@@ -1,0 +1,23 @@
+/*
+시간복잡도: O(N)
+공간복잡도: O(N)
+unordered_set recode에 vector 배열 원소를 집어넣어준다.
+recoded에 있는 원소들의 연속으로 이어진 길이중 최대를 구한다.
+연속적으로 이어진원소들을 삭제해서 중복으로 세는경우를 없애준다 
+*/
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int answer=0;
+        unordered_set record(nums.begin(),nums.end());
+        for(int n:nums){
+            if(record.find(n)!=record.end()){
+                int next=n+1;
+                int prev=n-1;
+                while(record.find(next)!=record.end())record.erase(next++);
+                while(record.find(prev)!=record.end())record.erase(prev--);
+                    answer=max(answer,next-prev-1);
+            }
+        }return answer;
+    }
+};
