@@ -1,0 +1,25 @@
+/*
+시간복잡도:O(N*M)
+공간복잡도:O(N*M)
+풀이: 문자가 지워지는 경우 , 문자가 더해지는 경우 , 문자를 바꾸는 경우 세가지가 있는데 더하는경우는 빼는경우와 비슷하므로
+고려하지 않아도된다.그래서 string 1 혹은 string 2의 끝문자부터 빠지는경우, 둘이같으면 넘어가고,다르면 바꾸는경우 3가지를 고려하여 dp로 풀어주면 된다.
+*/
+class Solution {
+public:
+    int dp[501][501];
+    int sol(string one,string two,int string1_len,int string2_len){
+        if(dp[string1_len][string2_len])return dp[string1_len][string2_len];
+        if(string1_len==0)return string2_len;
+        else if(string2_len==0)return string1_len;
+        else{
+            return dp[string1_len][string2_len]=min({
+                sol(one.substr(0,string1_len-1),two,string1_len-1,string2_len)+1,
+                sol(one,two.substr(0,string2_len-1),string1_len,string2_len-1)+1,
+                sol(one.substr(0,string1_len-1),two.substr(0,string2_len-1),string1_len-1,string2_len-1)+(one[string1_len-1]!=two[string2_len-1])
+                 });
+        }
+    }   
+    int minDistance(string word1, string word2) {
+        return sol(word1,word2,word1.size(),word2.size());
+    }
+};
