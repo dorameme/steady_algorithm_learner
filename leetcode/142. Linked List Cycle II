@@ -1,0 +1,42 @@
+
+/*
+시간복잡도:O(N) 노드의 수 만큼
+공간복잡도:O(1)
+풀이:플로이드의 토끼와 거북이 알고리즘을 사용하였다
+토끼가 2칸씩 움직이고 거북이가 1칸씩 움직이면
+
+거북이가 이동한거리는 p(비순환 노드)+q(순환고리 안)
+토끼가 이동한거리 2(p+q)=p+(q+q)+r(q,r은 순환고리의 길이)
+p=r이라는방정식이 나온다
+따라서 토끼는 p+r만큼 더 이동햇으므로
+거북이를 다시 처음노드로 보내고 토끼와거북이가 계속 한칸씩이동하다보면 만나게되는 점이 순환고리의 시작부분 이다.
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow=head;
+        ListNode *fast=head;
+        if(head==NULL||head->next==NULL)return NULL;
+        while(fast&&fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(fast==NULL)return NULL;
+            if(slow==fast)break;
+        }
+        if(!(fast&&fast->next))return NULL;
+        slow=head;
+        while(slow!=fast){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        return slow;
+    }
+};
