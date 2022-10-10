@@ -1,0 +1,59 @@
+class Solution {
+public:
+
+/*
+시간복잡도:O(N^2) N은 문자열의 길이
+공간복잡도:O(N)
+풀이: point->dp로 풀어준다!
+  sol함수는 주어진 문자열을 시작점 i부터 x크기만큼 잘라가며 부분문자열이 wordDick에 포함되는지 확인한다
+  만일 포함이된다면 visit이라는 1차원 어레이를 만들어서 특정위치까지 성공적임을 나타낸다.
+*/
+//내 풀이
+bool answer=false;
+int visit[501];
+    void solve(string s,int i,unordered_set<string>& us){
+        if(s.size()==i){
+            answer=true;
+            return ;
+        }
+        for(int x=1;x+i<=s.size();x++){
+            if(visit[x+i])continue;
+            if(us.find(s.substr(i,x))!=us.end()){
+                visit[i+x]=1;
+                solve(s,i+x,us);
+            
+            }
+        }
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> us(wordDict.begin(),wordDict.end());
+        solve(s,0,us);
+        return answer;
+    }
+};
+/*다른 풀이 정리
+bool wordBreak(string s, unordered_set<string> &dict) {
+        if(dict.size()==0) return false;//만일 주어진 dict에 값이없으면 0 반환
+        
+        vector<bool> dp(s.size()+1,false);//dp벡터는 전부 false로 만든다
+        dp[0]=true;//문자열의 길이가 0이면 참 반환
+        
+        for(int i=1;i<=s.size();i++)
+        {
+            for(int j=i-1;j>=0;j--)
+            {
+                if(dp[j])
+                {
+                    string word = s.substr(j,i-j);
+                    if(dict.find(word)!= dict.end())
+                    {
+                        dp[i]=true;
+                        break; //next i
+                    }
+                }
+            }
+        }
+        
+        return dp[s.size()];///dp에서 문자열의 길이가 답이므로 
+    }
+    */
