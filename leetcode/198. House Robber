@@ -1,0 +1,22 @@
+/*
+시간복잡도:O(N)
+공간복잡도:O(N)
+풀이방법: 각 위치에서 최대로 많은 돈을 획득한 겯우를 저장한 DP로 답을 낸다.dp의 경우 이전값, 두번째전값+현재값, 세번째전값+현재값 중 큰값으로 결정한다.
+*/
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int dp[101]={0,};
+        if(nums.size()==1){return nums[0];}
+        else if(nums.size()==2){return max(nums[0],nums[1]);}
+        else if(nums.size())
+        int dp[101]={0,};
+        dp[0]=nums[0];
+        dp[1]=nums[1];
+        dp[2]=max(nums[0]+nums[2],nums[1]);
+        for(int i=3;i<nums.size();i++){
+            dp[i]=max({dp[i-2]+nums[i],dp[i-3]+nums[i],dp[i-1]});
+        }
+        return dp[nums.size()-1];
+    }
+};
