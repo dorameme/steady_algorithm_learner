@@ -1,0 +1,20 @@
+/*
+시간복잡도: O(N)-> 벡터복사 O(N) 벡터 합치기 O(N)(두문자열의 길이의 합 O(N+M)여기선 한문자열을 두개로 나눈뒤 insert하므로 ..)
+공간복잡도: O(N)
+풀이: 그냥 몇번돌릴지를 벡터사이즈로 나눈 나머지를 기준으로 풀어준다. 함수를 이용하여 쉽게 풀어준다
+*/
+
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        k=k%(nums.size());
+        
+        vector<int> A(nums.begin()+nums.size()-k,nums.begin()+nums.size());
+        vector <int> B(nums.begin(),nums.begin()+nums.size()-k);
+        nums.clear();
+        nums.reserve(nums.size());
+        nums.insert(nums.end(),A.begin(),A.end());
+        nums.insert(nums.end(),B.begin(),B.end());
+    }
+};
