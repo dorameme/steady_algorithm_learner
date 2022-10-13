@@ -1,0 +1,25 @@
+
+/*
+시간복잡도:O(1)
+공간복잡도:O(1)
+풀이: 그냥 현재노드의 값을 다음 노드 값이랑 똑같이 바꾸고 다다음 노드를 가리키도록 바꾸었는데
+현재 노드의 주소값을 다음노드의 주소값으로 바꾸는 방법으로 한번에 풀수 있다.
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val=node->next->val;
+        node->next=node->next->next;  
+        
+        //*node=*(node->next);로 한 줄로 풀수도있다.
+    }
+};
+
