@@ -1,0 +1,35 @@
+/*
+시간복잡도 : O(N)
+공간복잡도 : O(N)
+함수를 오버라이딩한다음 문제를 재귀적으로 해결하였다. 풀이를 보고 이해했는데 어려웠다
+*/
+class Solution {
+public:
+    string decodeString(const string& s, int& i) {
+        string res;
+        
+        while (i < s.length() && s[i] != ']') {
+            if (!isdigit(s[i]))//숫자가 아니라 문자일경우 계속더해주다가
+                res += s[i++];
+            else {//숫자의 경우
+                int n = 0;
+                while (i < s.length() && isdigit(s[i]))
+                    n = n * 10 + s[i++] - '0';
+                    
+                i++; // '['
+                string t = decodeString(s, i);
+                i++; // ']'
+                
+                while (n-- > 0)
+                    res += t;
+            }
+        }
+        
+        return res;
+    }
+
+    string decodeString(string s) {
+        int i = 0;
+        return decodeString(s, i);
+    }
+};
