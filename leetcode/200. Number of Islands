@@ -1,0 +1,38 @@
+/*
+시간복잡도:O(N*M) N은 행 M은 열 수(모든 구간 탐색후 섬의 개수를 구함)
+공간복잡도:O(N*M)
+간단하게 bfs로 풀수있는 문제였다
+*/
+class Solution {
+public:
+int dx[4]={0,0,-1,1};
+int dy[4]={1,-1,0,0};
+    int visit[301][301];
+    int numIslands(vector<vector<char>>& grid) {
+        int answer=0;
+        for(int i=0;i<grid.size();i++){
+            for(int n=0;n<grid[0].size();n++){
+               // cout<<i<<" "<<n<<"\n";
+                if(grid[i][n]=='1'&&visit[i][n]==0){
+                answer++;
+                visit[i][n]=1;
+                queue<pair<int,int>> pq;
+                pq.push({i,n});
+                while(!pq.empty()){
+                    pair<int,int> cur = pq.front();
+                    pq.pop();
+                    for(int i=0;i<4;i++){
+                        int nx=dx[i]+cur.first;
+                        int ny=dy[i]+cur.second;
+                        if(nx<0||ny<0||nx>=grid.size()||ny>=grid[0].size())continue;
+                        if(grid[nx][ny]=='0'||visit[nx][ny]==1)continue;
+                        visit[nx][ny]=1;
+                        pq.push({nx,ny});
+                    }
+                }
+                }
+
+            }
+        }return answer;
+    }
+};
