@@ -1,0 +1,28 @@
+/*
+시간복잡도: O(N)
+공간복잡도:O(N)
+unordered map 을 써서 구현하였다
+우선 dp에 처음부터 인덱스까지의 값을 모두 더한뒤 맵에서 각각의 인덱스에서 k를 뺀 값이 존재하는지 확인 후 그 숫자만큼 answer에 더해주는 형식
+*/
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int answer=0;
+        vector <int> dp(nums.size()+1);
+        dp[0]=nums[0];
+        unordered_map <int,int> m;
+        m[dp[0]]=1;
+        if(dp[0]==k)answer++;
+        for(int i=1;i<nums.size();i++){
+            dp[i]=dp[i-1]+nums[i];
+            if(m.find(dp[i]-k)!=m.end()){
+                answer+=m[-k+dp[i]];
+            }
+            if(k==dp[i]){
+            answer++;
+            }
+            m[dp[i]]++;
+        }
+        return answer;
+    }
+};
