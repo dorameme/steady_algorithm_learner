@@ -1,0 +1,48 @@
+/*
+시간복잡도: O(N*M) N*M은 행렬의 크기
+공간복잡도: O(N*M)
+풀이: 엄청 간단. BFS를 돌리기전에 썩은 오렌지의 위치를 미리 큐에 넣어뒀다.
+*/
+
+class Solution {
+public:
+int dx[4]={0,0,-1,1};
+int dy[4]={-1,1,0,0};
+    int orangesRotting(vector<vector<int>>& grid) {
+        queue<pair<pair<int,int>,int>> q;
+        int orange=0;
+        int answer=0;
+      int visit[11][11]={0,};
+        for(int i=0;i<grid.size();i++){
+            for(int n=0;n<grid[0].size();n++){
+                if(grid[i][n]==2){
+                    q.push({{i,n},0});
+                    visit[i][n]=1;
+                }
+                if(grid[i][n]==1){
+                    orange++;
+                }
+            }
+        }
+        int cnt=0;
+        while(!q.empty()){
+            pair<pair<int,int>,int> cur=q.front();
+            q.pop();
+            for(int i=0;i<4;i++){
+                int nx=dx[i]+cur.first.first;
+                int ny=dy[i]+cur.first.second;
+                if(nx<0||ny<0||nx>=grid.size()||ny>=grid[0].size()){
+                    continue;
+                }
+                if(visit[nx][ny]||grid[nx][ny]==0)continue;
+                visit[nx][ny]=1;
+                q.push({{nx,ny},cur.second+1});
+                cnt++;
+                if(cur.second+1>answer)answer=cur.second+1;
+            }
+        }
+        cout<<orange<<" "<<cnt<<"\n";
+        if(orange!=cnt)return -1;
+        return answer;
+    }
+};
