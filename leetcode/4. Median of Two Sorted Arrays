@@ -1,0 +1,34 @@
+/*
+시간복잡도:O(NlgN)
+공간복잡도:O(N)
+우선순위 큐로 삽입 O(lgN), 정렬 O(NlgN)이므로 다음과같이 나온다
+전부다 큐에넣고 다시 반만큼만 빼준다.
+*/
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int i=0;
+        int m=0;
+        int need=2;
+        priority_queue <int> qp;
+        if((nums1.size()+nums2.size())%2==1){need=1;}     
+        for(int i=0;i<nums1.size();i++){
+            qp.push(nums1[i]);
+        }for(int i=0;i<nums2.size();i++){
+            qp.push(nums2[i]);
+        }
+        for(int i=0;i<(nums2.size()+nums1.size()-1)/2;i++){
+            qp.pop();
+        }
+        if(need==1){
+            return qp.top();
+        }
+        else{
+            int answer=qp.top();
+            qp.pop();
+            answer+=qp.top();
+            return double(answer)/2;
+        }
+    }
+};
