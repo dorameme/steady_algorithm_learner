@@ -1,0 +1,43 @@
+/*
+시간복잡도:O(N)->vector 안의 모든요소크기
+공간복잡도:O(N)->vector 안의 모든요소크기
+벡터안의 묘든요소를 다 뺴낸뒤 정렬하여 
+리스트노드에 하나씩 차례대로 연결해준다.
+
+혹은 priority queue 를 이용할 수 도 
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        vector <int> helper;
+        for(int i=0;i<lists.size();i++){
+                while(lists[i]!=NULL){
+                    helper.push_back(lists[i]->val);
+                    lists[i]=lists[i]->next;
+                }
+        }
+        if(helper.size()==0)return NULL;
+        ListNode* res=new ListNode();
+        ListNode*head=res;
+        sort(helper.begin(),helper.end());
+        for(int i=0;i<helper.size();i++){
+            res->val=helper[i];
+            if(i+1!=helper.size()){
+                res->next=new ListNode();
+                res=res->next;
+            }
+        }
+        return head;
+    }
+};
