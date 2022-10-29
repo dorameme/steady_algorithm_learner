@@ -1,0 +1,27 @@
+/*
+시간복잡도
+공간복잡도
+풀이:넘버사이즈보다 한칸 크게(0~nums.size()의 숫자들을 담기위해) 벡터 사이즈를 잡는다. 여기서 만일 벡터사이즈 안의 숫자가 나오면 해당 벡터인덱스에 +1해준다
+그리고 벡터를 순회하며 빈칸을 찾는다
+빈칸이 없으면 넘버사이즈보다 한칸 큰게 답이된다.
+*/
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        vector <int> v(nums.size()+1,0);
+        int n=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]<=0||nums[i]>nums.size())continue;
+            else{
+                n++;
+                v[nums[i]]++;
+            }
+        }
+        int answer=-1;
+        for(int i=1;i<=nums.size();i++){
+            if(v[i]==0){return i;}
+        }
+        return nums.size()+1;
+
+    }
+};
