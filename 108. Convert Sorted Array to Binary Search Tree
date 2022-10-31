@@ -1,0 +1,40 @@
+/*
+시간복잡도:O(N)
+공간복잡도:O(N)
+풀이:  결과적으로 중간값은 부모 왼쪽은 왼쪽 자식 오른쪽은 오른쪽 자식이 되므로 이를 이분탐색으로 구현하였다.
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    TreeNode* solve(int L,int R,vector<int>& nums) {
+        if(L>R)return NULL;
+        TreeNode* answer=new TreeNode();
+        answer->val=nums[(L+R)/2];
+        answer->left=solve(L,(L+R)/2-1,nums);
+        answer->right=solve((L+R)/2+1,R,nums);
+        return answer;
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        TreeNode* answer=new TreeNode();
+        if(nums.size()==0){
+            answer=NULL;
+            return answer;
+        }
+        int len=nums.size();
+        answer->val=nums[len/2];
+        answer->left=solve(0,len/2-1,nums);
+        answer->right=solve(len/2+1,len-1,nums);
+        return answer;
+    }
+};
