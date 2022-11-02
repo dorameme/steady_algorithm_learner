@@ -1,0 +1,45 @@
+/*
+시간복잡도:O(N)
+공간복잡도:O(N)
+풀이: stack을 이용해서 풀었다
+일단 visit 배열을 만들어 string s가 연속적으로 valid 할때를 넣어주었다.
+그리고 최대로 연속적인 구간의 길이를 구해 return 하였다.
+
+*/
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        
+        stack <int> stk;
+        int answer=0;
+        int cnt=0;
+        bool go=true;
+        int visit[30001]={0,};
+        for(int i=0;i<s.size();i++){
+            if(s[i]==')'){
+                if(!stk.empty()){//비어있지않으면
+                    for(int x=stk.top();x<=i;x++){
+                        visit[x]=1;
+                    }
+                    stk.pop();
+                }
+            }
+            else{
+                stk.push(i);
+            }
+
+        }
+        cnt=0;
+        for(int i=0;i<s.size();i++){
+            cout<<visit[i]<<"\n";
+            if(visit[i]){
+                cnt++;
+                if(answer<cnt)answer=cnt;
+            }else{
+                cnt=0;
+            }
+        }
+        return answer;
+    }
+};
