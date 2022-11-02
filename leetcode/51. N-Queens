@@ -1,0 +1,89 @@
+/*
+주어진 숫자 N에 대하여
+시간복잡도:O(N^2)
+공간복잡도:O(N^2)
+풀이: visit 함수랑 stack을 이용해서 풀었는데
+주의해야할 점이 그 ..있을수 없는 좌표가 겹칠수 있어서 그걸 stack에 넣어서 해결했다.
+
+*/
+
+class Solution {
+public:
+///여기 백터질문
+    int row[10];
+    int col[10];
+    int visit[10][10];
+    int arr[10][10];
+    vector<vector <string>> answer;
+    void solve(int r,int c,int n){
+        stack<pair<int,int>> stk;
+        col[c]=1;
+        
+        for(int i=0;i<n;i++){
+            for(int m=0;m<n;m++)
+            {
+                cout<<visit[i][m];
+            }cout<<"\n";
+        }cout<<"\n\n";
+        
+        for(int i=-n;i<=n;i++){
+            if(r+i<0||c+i<0||c+i>=n||r+i>=n)continue;
+            else{
+                if(!visit[r+i][c+i]){
+                visit[r+i][c+i]=1;
+                stk.push({r+i,c+i});
+                }
+            }
+        }
+        for(int i=-n;i<=n;i++){
+            if(r-i<0||c+i<0||c+i>=n||r-i>=n)continue;
+            else{
+                if(!visit[r-i][c+i]){
+                visit[r-i][c+i]=1;
+                stk.push({r-i,c+i});
+                }
+            }
+        }
+        if(r+1==n){
+            string s="";
+            vector <string> helper;
+            for(int i=0;i<n;i++){
+                for(int m=0;m<n;m++){
+                    if(arr[i][m])s=s+'Q';
+                    else{s=s+'.';}
+                    cout<<arr[i][m];
+                }cout<<'\n';
+                helper.push_back(s);
+                s.clear();
+            }cout<<"\n";
+            answer.push_back(helper);
+            helper.clear();
+            
+        }
+
+        for(int i=0;i<n;i++){
+            if(!visit[r+1][i]&&!col[i]){
+                arr[r+1][i]=5; 
+                solve(r+1,i,n);
+                arr[r+1][i]=0;
+            }
+        }
+        
+        col[c]=0;
+        
+        while(!stk.empty()){
+            visit[stk.top().first][stk.top().second]=0;
+            stk.pop();
+        }
+        
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        for(int i=0;i<n;i++){          
+            arr[0][i]=5;
+            cout<<i+1<<"\n";
+            solve(0,i,n);          
+            arr[0][i]=0;
+        }
+        return answer;
+    }
+};
