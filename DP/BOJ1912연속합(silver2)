@@ -1,0 +1,23 @@
+/*
+시간복잡도:O(N)
+공간복잡도:O(1)
+풀이: 동적계획법으로 쉽게풀리는 문제인데
+우선 이전 값이 0보다 작은경우 그냥 버려버리는 식으 풀어주면 된다.
+풀이 깔끔하고 맘에들어서  종만북 풀다가 들고 왔다,
+ */
+#include <algorithm>
+#include <iostream>
+using namespace std;
+int main(){
+    int num;
+    cin>>num;
+    int psum=0;
+    int ret=-1000;
+    int new_num;
+    for(int i=0;i<num;++i){
+        cin>>new_num;
+        psum=max(psum,0)+new_num;
+        ret=max(ret,psum);
+    }
+    cout<<ret;
+}
