@@ -3,6 +3,7 @@
 # kim-yunsoo
 [![Solved.ac Profile](http://mazassumnida.wtf/api/v2/generate_badge?boj=doradorav)](https://solved.ac/doradorav/)
 
+<img width="728" alt="스크린샷 2022-11-27 오후 3 19 39" src="https://user-images.githubusercontent.com/68580993/204122113-389c5791-cfb3-441f-98ea-7ee3549d3b42.png">
 
 
 이진검색트리-
