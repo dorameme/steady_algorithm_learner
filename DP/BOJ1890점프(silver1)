@@ -1,0 +1,52 @@
+/*
+start:10:19
+end:10:31
+시간복잡도:O(N*N)
+공간복잡도:O(N*N)
+풀이:다이나믹프로그래밍으로 쉽게 푸리는 문제
+주의: 해당 칸에 0이 오는경우를 예외로 주의해줘야한다.칸의 값이 0이오면 그자리에서 계속 함수를 호출해 메모리초과가 난다.
+*/
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <set>
+#include <queue>
+#include <map>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <unordered_map>
+#define X first
+#define Y second
+#define INF 2147483647
+using namespace std;
+long long dx[] = {0, 0, -1, 1};
+long long dy[] = {-1, 1, 0, 0};
+int answer;
+long long dp[101][101];
+int arr[101][101];
+int N;
+long long solve(int x, int y)
+{
+    if (x > N || y > N)
+        return 0;
+    if (x == N && y == N)
+        return 1;
+    if (dp[x][y])
+        return dp[x][y];
+    if(arr[x][y]==0)return 0;
+    return dp[x][y] = solve(x, y + arr[x][y]) + solve(x + arr[x][y], y);
+}
+int main()
+{
+    cin >> N;
+    for (int i = 1; i <= N; i++)
+    {
+        for (int j = 1; j <= N; j++)
+        {
+            cin >> arr[i][j];
+        }
+    }
+    cout << solve(1, 1);
+}
