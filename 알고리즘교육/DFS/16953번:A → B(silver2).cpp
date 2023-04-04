@@ -3,7 +3,7 @@ start:16:20
 end:16:32
 시간복잡도O(N)
 공간복잡도:O(N)
-풀이:dfs로 쉽게 풀수있다. 풀이법을 2개 써둠. 맞는걸로 참고
+풀이:dfs로 쉽게 풀수있다.근데 BFS도  풀이법을 2개 써둠. 맞는걸로 참고
 */
 #include <iostream>
 long long A, B;
