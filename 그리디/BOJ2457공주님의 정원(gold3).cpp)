@@ -1,0 +1,103 @@
+/*
+start:9:00
+end:11:00
+시간복잡도:O(N)
+공간복잡도:O(N)
+풀이:그리디하게 최선의 선택을 하는데 (시작지점으로 가능한 것 (날짜순으로 ))>(날짜상 멀리있는것>날짜상 짧은것 ) 로 정렬하였다
+문제를 풀때 역시나 조건을 잘 이해하고 푸는것이 중요하다 11월30일도 포함하려면 11월30일을 넘겨야하는데 그걸 부등호로 잘못짜서 틀릴뻔했다!
+*/
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <queue>
+#include <algorithm>
+#define X first
+#define Y second
+using namespace std;
+int N;
+int s1, s2, e1, e2;
+int main()
+{
+    cin >> N;
+    vector<pair<pair<int, int>, pair<int, int>>> v;
+    priority_queue<pair<pair<int, int>, pair<int, int>>> qp;
+    for (size_t i = 0; i < N; i++)
+    {
+        cin >> s1 >> s2 >> e1 >> e2;
+        v.push_back({{s1, s2}, {100 - e1, 100 - e2}});
+        // qp.push({{100-s1,100-s2},{e1,e2}});
+    }
+    sort(v.begin(), v.end());
+    // for (size_t i = 0; i < N; i++)
+    // {
+        // cout << "idx:" << i << " " << v[i].X.X << " " << v[i].X.Y << " " << 100 - v[i].Y.X << " " << 100 - v[i].Y.Y << "\n";
+    // }
+    int month = 3, day = 1;
+    int end_month = 3, end_day = 1;
+    int answer = 0;
+    for (int i = 0; i < N; i++)
+    {
+        // cout << "idx" << i << "\n";
+        pair<pair<int, int>, pair<int, int>> cur = v[i];
+
+        // cout << "month: :" << month << " day: " << day << " end_m: " << end_month << " end_d : " << end_day << "\n";
+        // cout << cur.X.X << " " << cur.X.Y << " " << 100 - cur.Y.X << " " << 100 - cur.Y.Y << "\n";
+
+        if (cur.X.X <= end_month & cur.X.Y <= end_day || cur.X.X < end_month)
+        {
+            // cout << "여기:\n"; // 현재보다 과거
+            // if (end_month <= 100 - cur.Y.X && end_day <= 100 - cur.Y.Y || end_month + 1 <= 100 - cur.Y.X) // 날짜가 김
+            {
+                qp.push({{100 - cur.Y.X, 100 - cur.Y.Y}, cur.X}); // 긴거~ 그다음이 시작일..
+            }                                                     // 끝(끝이 커야됨) 시작
+        }
+        else
+        {
+           // cout << "저기\n";
+            if (!qp.empty())
+            {
+                // cout << "answer++\n";
+                answer++;
+                month = qp.top().Y.X;
+                day = qp.top().Y.Y;
+                end_month = qp.top().X.X;
+                end_day = qp.top().X.Y;
+                qp.pop();
+                if (end_month > 11 || end_month == 11 && end_day > 30)
+                {
+                    // cout << month << " " << day << " " << end_month << " " << end_day << "\n";
+                    cout << answer << "\n";
+                    return 0;
+                }
+                while (!qp.empty())
+                {
+                    qp.pop();
+                }
+                if (cur.Y.X != month)
+                {
+                    qp.push({{100 - cur.Y.X, 100 - cur.Y.Y}, cur.X}); // 긴거~ 그다음이 시작일..
+                }
+            }
+        }
+    }
+    if (!qp.empty())
+    {
+        
+         if ( qp.top().Y.X <= end_month &  qp.top().Y.Y <= end_day ||  qp.top().Y.X < end_month)
+        {
+        // cout << "answer++\n";
+        answer++;
+        month = qp.top().Y.X;
+        day = qp.top().Y.Y;
+        end_month = qp.top().X.X;
+        end_day = qp.top().X.Y;
+    }}
+    if (end_month > 11 || end_month == 11 && end_day > 30)
+    {
+        cout << answer << "\n";
+        return 0;
+    }
+    cout << 0;
+}
