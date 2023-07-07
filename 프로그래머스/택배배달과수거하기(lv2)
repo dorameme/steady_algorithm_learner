@@ -1,0 +1,59 @@
+/*
+start:11:00
+end:11:43
+시간복잡도:O(N)
+공간복잡도:O(N)
+풀이:그리디 문제. 어떻게 풀지 감이안가서 풀이를 참조하였다.
+포인트는 멀리있는데 부터 무조건 방문해야하므로 stack을 써야한다는 것.
+*/
+#include <string>
+#include <vector>
+#include <stack>
+using namespace std;
+
+long long solution(int cap, int n, vector<int> deliveries, vector<int> pickups) {
+    long long answer = 0;
+    
+    stack<int> D;
+    stack<int> P;
+    for(int i:deliveries){
+        D.push(i);
+    } 
+    for(int i:pickups){
+        P.push(i);
+    }
+    
+    while(!D.empty() && D.top()==0)D.pop();
+    while(!P.empty() && P.top()==0)P.pop();
+    
+    while(!D.empty() || !P.empty()){
+        answer+= max(D.size()*2 ,P.size()*2);
+       
+        int box=0;
+        while(!D.empty() && box<=cap){
+            if(D.top()<=cap-box)
+            {
+                box+=D.top();
+            }
+            else{
+                D.top()-=cap-box;
+                break;
+            }
+            D.pop();
+        }
+        
+        box=0;
+        while(!P.empty()&& box<=cap){
+            if(P.top()<=cap-box)
+            {
+                box+=P.top();
+            }
+            else{
+                P.top()-=cap-box;
+                break;
+            }
+            P.pop();
+        }        
+    }
+    return answer;
+}
