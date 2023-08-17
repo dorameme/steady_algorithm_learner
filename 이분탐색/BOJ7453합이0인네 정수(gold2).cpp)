@@ -1,0 +1,71 @@
+/*
+start:9:40
+end:10:16
+시간복잡도:O(N*NlgN)
+공간복잡도:O(N*N)
+풀이: 이분탐색으로 풀수있는 문제였다.
+사실 lower_bound,upper_bound 를 알긴했는데 써본적이없어서 이번에 외워야겠다.
+사용법-> lower_bound(v.begin(), v.end(), 원하는 수) -  v.begin(); 
+*/
+
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <map>
+#include <vector>
+using namespace std;
+vector<int> A;
+vector<int> B;
+vector<int> C;
+vector<int> D;
+vector<int> helper1;
+vector<int> helper2;
+int N;
+long long int answer;
+map<pair<int, int>, int> m;
+void solve()
+{
+  for (int i = 0; i <helper1.size(); i++)
+  {
+    int idx = lower_bound(helper2.begin(), helper2.end(), -helper1[i]) - helper2.begin();//helper2의 범위에서 -helper1[i] 값이 처음나오는 인덱스
+    int endIdx = upper_bound(helper2.begin(), helper2.end(), -helper1[i]) - helper2.begin();// ... 마지막 인덱스
+    answer += endIdx - idx;
+  }
+}
+void helper()
+{
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = 0; j < N; j++)
+    {
+      helper1.push_back(A[i] + B[j]);
+      helper2.push_back(C[i] + D[j]);
+    }
+  }
+  sort(helper1.begin(), helper1.end());
+  sort(helper2.begin(), helper2.end());
+}
+int main()
+{
+  cin >> N;
+  int num;
+  for (int i = 0; i < N; i++)
+  {
+    cin >> num;
+    A.push_back(num);
+    cin >> num;
+    B.push_back(num);
+    cin >> num;
+    C.push_back(num);
+    cin >> num;
+    D.push_back(num);
+  }
+  sort(A.begin(), A.end());
+  sort(B.begin(), B.end());
+  sort(C.begin(), C.end());
+  sort(D.begin(), D.end());
+
+  helper();
+  solve();
+  cout << answer;
+}
