@@ -1,0 +1,94 @@
+/*
+start:9:00
+end:9:31
+시간복잡도:O(N^2)
+공간복잡도:O(N^2)
+풀이:dp문제였는데 주의할 점은 원형으로 된 어레이라 생각하고 풀어야한다는 점이었다.
+그래서 전체를 다먹기전까진 인덱스를 수정해주면서 풀어야한다.
+*/
+
+
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <map>
+#include <vector>
+using namespace std;
+long long int dp[2005][2005][2];
+long long int N;
+vector<long long int> v(3000); // 항상 인덱스 주의
+long long int solve(long long int used, long long int left, long long int right, bool turn)
+{
+
+  if (used == N)
+  {
+    return 0;
+  }
+  long long int &ret = dp[left][right][turn];
+  
+  if (ret)
+    return ret;
+
+
+    long long int LEFT=left;
+    long long int RIGHT=right;
+    if (left == 4){
+       LEFT = N + 4;
+    }
+    else if (right == N + 5)
+    RIGHT = 5;
+   
+    left=LEFT;right=RIGHT;
+    
+  if (turn == false)//내차례
+  {
+    // if (left == 4)
+    // {
+    //   long long int newLeft = N + 4;
+    //   return ret = max({ret, solve(used + 1, newLeft, right + 1, !turn) + v[right], solve(used + 1, newLeft - 1, right + 1, !turn) + v[newLeft]});
+    // }
+    // else if (right == N + 5)
+    // {
+
+    //   long long int newRight = 5;
+    //   return ret = max({ret, solve(used + 1, left - 1, right, !turn) + v[left], solve(used + 1, left, newRight + 1, !turn) + v[newRight]});
+    // }
+    // else
+    // {
+      return ret = max({ret, solve(used + 1, left - 1, right, !turn) + v[left], solve(used + 1, left, right + 1, !turn) + v[right]});
+    // }
+  }
+  else
+  {
+      if (v[left] > v[right])
+      {
+        return dp[left][right][turn] = solve(used + 1, left - 1, right, !turn);
+      }
+      else if (v[left] < v[right])
+      {
+        return dp[left][right][turn] = solve(used + 1, left, right + 1, !turn);
+      }
+    
+  }
+  return 0;
+}
+int main()
+{
+
+  cin >> N;
+  for (long long int i = 0; i < N; i++)
+  {
+    cin >> v[i + 5];
+  }
+  long long int answer = 0;
+  for (long long int i = 5; i < N + 5; i++)
+  {
+    long long int result =dp[i][i+1][false]= solve(0,i, i + 1, false);
+
+    if (answer < result)
+    {
+      answer = result;
+    }
+  }
+  cout << answer << "\n";
+}
